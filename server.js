@@ -5,6 +5,9 @@ var express = require('express');
 // generate a new express app and call it 'app'
 var app = express();
 
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
+
 // serve static files from public folder
 app.use(express.static(__dirname + '/public'));
 
@@ -78,10 +81,18 @@ app.get('/api/albums', function album_index(req, res){
 });
 
 app.post('/api/albums', function(req, res){
-  console.log("post route started");
-  // albums.push(albums);
-  res.send('albums');
+  console.log(req.body);
+  db.Album.create(req.body, function(err, Album) {
+    // var newAlbum = req.body;
+    console.log('album created', Album);
+    res.send(Album);
+  // res.send(albums);
+  });
+  console.log(req.body.genres);
 });
+
+////---------- SPRINT STEP4 --------/////
+str.split(album.name, album.artistName);
 
 /**********
  * SERVER *

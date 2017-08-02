@@ -62,14 +62,16 @@ function addAlbum() {
     // reset form fields
     $(this).trigger('reset');
 
+    function aFunction(response){
+      console.log(response);
+    };
     // this is close, ajax needs to send "POST" form data
-    // $.post("http://localhost:3000/api/albums")
-    //   .done(function(data) {
-    //     let kanyeAlbums = data;
-    //     kanyeAlbums.forEach(function (kanyeAlbum) {
-    //       renderAlbum(kanyeAlbum);
-    //   });
-    // });
+    $.ajax({
+       type: "POST",
+       url: "http://localhost:3000/api/albums",
+       data: formData,
+       success: aFunction
+    });
   });
 }
 
