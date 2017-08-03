@@ -8,3 +8,5 @@ module.exports.Album = Album;
 var Song = require ('./album');
 module.exports.Song = Song;
 // console.log(Song);
+
+// do i need var Song = require ('./song'); or module.exports.Song = require ();

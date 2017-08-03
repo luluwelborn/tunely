@@ -90,10 +90,13 @@ app.post('/api/albums', function album_new(req, res){
   });
 });
 
+// Add song to album
 app.post('/api/albums/:album_id/songs', function album_index(req, res){
-  console.log(req.params.album_id);
-  db.Album.find({}, function(err, albums) {
-    res.json(albums);
+  // console.log(req.params.album_id);
+  db.Album.findOne({_id: req.params.album_id}, function(err, album) {
+    album.songs.push({name: req.body.name, trackNumber: req.body.trackNumber});
+    album.save();
+    res.json(album);
   });
 });
 

@@ -50,9 +50,11 @@ $(document).ready(function() {
 
     // Album id click 
 $('.album').on('click', '.add-song', function(e) {
-    console.log('asdfasdfasdf');
+  // jquery on click issues
+  // google click listerned not listening
+    // console.log('asdfasdfasdf');
     var id= $(this).parents('.album').data('album-id');
-    console.log('id',id);
+    // console.log('id',id);
     $('#songModal').data('album-id', id);
     $('#songModal').modal();
 });
@@ -70,7 +72,14 @@ $('.album').on('click', '.add-song', function(e) {
     type: 'POST',
     url: '/api/albums/' + id + '/songs',
     datatype: 'json',
-    data: newSong
+    data: {
+      name: newSong,
+      trackNumber: theTrack
+    },
+    success: function() {
+      console.log('yay');
+    }
+
     });
   });
 });
@@ -108,7 +117,7 @@ function buildSongsHtml(songs) {
   // take in song array here & return string
   songText = songText + (" + song.trackNumber + ") + song.name + "-";
   });
-  var songsHtml = "+" + songText + "" + ""; returnsongsHtml;
+  var songsHtml = "+" + songText + "" + ""; return songsHtml;
 };
 
 
