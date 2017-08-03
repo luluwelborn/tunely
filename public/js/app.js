@@ -37,6 +37,7 @@ sampleAlbums.push({
 
 $(document).ready(function() {
   console.log('app.js loaded!');
+
   $.get("http://localhost:3000/api/albums")
       .done(function(data) {
         let kanyeAlbums = data;
@@ -46,6 +47,32 @@ $(document).ready(function() {
   });
     // call form's addAlbum function
     addAlbum();
+
+    // Album id click 
+$('.album').on('click', '.add-song', function(e) {
+    console.log('asdfasdfasdf');
+    var id= $(this).parents('.album').data('album-id');
+    console.log('id',id);
+    $('#songModal').data('album-id', id);
+    $('#songModal').modal();
+});
+
+// modal click new song
+  $('#saveSong').on('click', function handleNewSongSubmit() {
+    var id= $(this).parents('#songModal').data('album-id');
+    $('#saveSong').data('album-id', id);
+    $('#saveSong').modal();
+    var newSong = $('#songName').val();
+    var theTrack = $('#trackNumber').val();
+    console.log('saving song on click', newSong, theTrack, id); 
+
+    $.ajax({
+    type: 'POST',
+    url: '/api/albums/' + id + '/songs',
+    datatype: 'json',
+    data: newSong
+    });
+  });
 });
 
 
@@ -75,15 +102,26 @@ function addAlbum() {
   });
 }
 
+function buildSongsHtml(songs) {
+  var songText = "-";
+  Songs.forEach(function(song) {
+  // take in song array here & return string
+  songText = songText + (" + song.trackNumber + ") + song.name + "-";
+  });
+  var songsHtml = "+" + songText + "" + ""; returnsongsHtml;
+};
 
 
 // this function takes a single album and renders it to the page
 function renderAlbum(album) {
   // console.log('rendering album:', album);
+  
+
+
 
   var albumHtml =
   "        <!-- one album -->" +
-  "        <div class='row album' data-album-id='" + "HARDCODED ALBUM ID" + "'>" +
+  "        <div class='row album' data-album-id='" + album._id + "HARDCODED ALBUM ID" + "'>" +
   "          <div class='col-md-10 col-md-offset-1'>" +
   "            <div class='panel panel-default'>" +
   "              <div class='panel-body'>" +
@@ -106,12 +144,21 @@ function renderAlbum(album) {
   "                        <h4 class='inline-header'>Released date:</h4>" +
   "                        <span class='album-releaseDate'>" + album.releaseDate + "</span>" +
   "                      </li>" +
+  "                      <li class='list-group-item'>" +
+  "                      <h4 class='inline-header'>Songs:</h4>" +
+  "                      <span>  – (1) Famous – (2) All of the Lights – (3) Guilt Trip – (4) Paranoid – (5) Ultralight Beam – (6) Runaway – (7) Stronger – </span>" +
+  "                      </li>" +
   "                    </ul>" +
   "                  </div>" +
   "                </div>" +
   "                <!-- end of album internal row -->" +
 
   "              </div>" + // end of panel-body
+
+                  // Add song button
+  "               <div class='panel-footer'>" +
+  "               <button class='btn btn-primary add-song'>Add Song</button>" +
+  "               </div>" +
 
   "              <div class='panel-footer'>" +
   "              </div>" +

@@ -80,19 +80,22 @@ app.get('/api/albums', function album_index(req, res){
   });
 });
 
-app.post('/api/albums', function(req, res){
+app.post('/api/albums', function album_new(req, res){
   console.log(req.body);
-  db.Album.create(req.body, function(err, Album) {
-    // var newAlbum = req.body;
-    console.log('album created', Album);
-    res.send(Album);
-  // res.send(albums);
+  db.Album.create(req.body, function(err, album) {
+    // Split genres into string
+    var genres = req.body.genres.split(", ");
+    console.log(req.body.genres);
+    res.json(album);
   });
-  console.log(req.body.genres);
 });
 
-////---------- SPRINT STEP4 --------/////
-str.split(album.name, album.artistName);
+app.post('/api/albums/:album_id/songs', function album_index(req, res){
+  console.log(req.params.album_id);
+  db.Album.find({}, function(err, albums) {
+    res.json(albums);
+  });
+});
 
 /**********
  * SERVER *

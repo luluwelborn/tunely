@@ -11,3 +11,7 @@ let AlbumSchema = new Schema ({
 let Album = mongoose.model('Album', AlbumSchema);
 
 module.exports = Album;
+
+// Song model request
+var Song = require ('./album');
+module.exports.Song = Song;

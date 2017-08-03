@@ -30,7 +30,13 @@ albumsList.push({
             });
 
 db.Album.remove({}, function(err, albums){
+  // add sample songs to each album
+  albumsList.forEach(function(element) {
+    element.Songs = Songs;
+    console.log("added", Songs);
+  });
 
+  // create album
   db.Album.create(albumsList, function(err, albums){
     if (err) { return console.log('ERROR', err); }
     console.log("all albums:", albums);
@@ -39,3 +45,47 @@ db.Album.remove({}, function(err, albums){
   });
 
 });
+
+
+var Songs = [];
+Songs.push({ name: 'Famous',
+                   trackNumber: 1
+});
+Songs.push({ name: "All of the Lights",
+                   trackNumber: 2
+});
+Songs.push({ name: 'Guilt Trip',
+                   trackNumber: 3
+});
+Songs.push({ name: 'Paranoid',
+                   trackNumber: 4
+});
+Songs.push({ name: 'Ultralight Beam',
+                   trackNumber: 5
+});
+Songs.push({ name: 'Runaway',
+                   trackNumber: 6
+});
+Songs.push({ name: 'Stronger',
+                   trackNumber: 7
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
