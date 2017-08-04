@@ -29,23 +29,6 @@ albumsList.push({
               genres: [ 'r&b', 'electropop', 'synthpop' ]
             });
 
-db.Album.remove({}, function(err, albums){
-  // add sample songs to each album
-  albumsList.forEach(function(element) {
-    element.Songs = Songs;
-    console.log("added", Songs);
-  });
-
-  // create album
-  db.Album.create(albumsList, function(err, albums){
-    if (err) { return console.log('ERROR', err); }
-    console.log("all albums:", albums);
-    console.log("created", albums.length, "albums");
-    process.exit();
-  });
-
-});
-
 
 var Songs = [];
 Songs.push({ name: 'Famous',
@@ -70,7 +53,22 @@ Songs.push({ name: 'Stronger',
                    trackNumber: 7
 });
 
+db.Album.remove({}, function(err, albums){
+  // add sample songs to each album
+  albumsList.forEach(function(element) {
+    element.Songs = Songs;
+    console.log("added", Songs);
+  });
 
+  // create album
+  db.Album.create(albumsList, function(err, albums){
+    if (err) { return console.log('ERROR', err); }
+    console.log("all albums:", albums);
+    console.log("created", albums.length, "albums");
+    process.exit();
+  });
+
+});
 
 
 

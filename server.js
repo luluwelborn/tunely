@@ -74,11 +74,13 @@ app.get('/api', function api_index (req, res){
   });
 });
 
+
 app.get('/api/albums', function album_index(req, res){
   db.Album.find({}, function(err, albums) {
   res.json(albums);
   });
 });
+
 
 app.post('/api/albums', function album_new(req, res){
   console.log(req.body);
@@ -90,22 +92,28 @@ app.post('/api/albums', function album_new(req, res){
   });
 });
 
+
 // Add song to album
-app.post('/api/albums/:id/songs', function album_index(req, res){
-  // console.log(req.params.album_id);
+app.post('/api/albums/:album_id/songs', function(req, res){
+  console.log('post song route');
+
   db.Album.findOne({
-    _id: req.params.id
+    '_id': req.params.album_id
   }, function(err, album) {
+    console.log(album);
     album.songs.push({
       name: req.body.name,
       trackNumber: req.body.trackNumber
     });
     album.save();
     res.json(album);
-    db.Song.create(req.body, function(err, song) {
-    });
   });
 });
+
+
+app.get('api/albums/:id')
+
+
 
 /**********
  * SERVER *

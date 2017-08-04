@@ -1,10 +1,4 @@
 /* CLIENT-SIDE JS
- *
- * You may edit this file as you see fit.  Try to separate different components
- * into functions and objects as needed.
- *
- */
-
 
 /* hard-coded data! */
 var sampleAlbums = [];
@@ -36,7 +30,7 @@ sampleAlbums.push({
 
 
 $(document).ready(function() {
-  console.log('app.js loaded!');
+  // console.log('app.js loaded!');
   $.get("http://localhost:3000/api/albums")
   .done(function(data) {
     let kanyeAlbums = data;
@@ -44,9 +38,11 @@ $(document).ready(function() {
       renderAlbum(kanyeAlbum);
       console.log('hello data', data);
     });
+
+
     // Album id click 
-    $('.album').on('click', '.add-song', function(e) {
-      console.log('you clicked');
+  $('.album').on('click', '.add-song', function(e) {
+      // console.log('you clicked');
       var id= $(this).parents('.album').data('album-id');
       console.log('id',id);
       $('#songModal').data('album-id', id);
@@ -62,7 +58,9 @@ $(document).ready(function() {
     $('#saveSong').modal();
     var newSong = $('#songName').val();
     var theTrack = $('#trackNumber').val();
-    console.log('saving song on click', newSong, theTrack, id); 
+    //console.log('saving song on click', newSong, theTrack, id); 
+    console.log(id);
+
 
     $.ajax({
       type: 'POST',
@@ -108,26 +106,23 @@ function addAlbum() {
   });
 }
 
+
 function buildSongsHtml(songs) {
   var songText = "-";
+  var songsHTML = " ";
   Songs.forEach(function(song) {
   // take in song array here & return string
-  songText = songText + (" + song.trackNumber + ") + song.name + "-";
+    songText = '(' + song.trackNumber + ') ' + song.name + "-";
+    songsHTML += songText + " ";
   });
-  var songsHtml = "+" + songText + "" + ""; return songsHtml;
+  return songsHTML;
 };
 
 
-// this function takes a single album and renders it to the page
 function renderAlbum(album) {
-  // console.log('rendering album:', album);
-  
-
-
-
   var albumHtml =
   "        <!-- one album -->" +
-  "        <div class='row album' data-album-id='" + album._id + "HARDCODED ALBUM ID" + "'>" +
+  "        <div class='row album' data-album-id='" + album._id + "'>" +
   "          <div class='col-md-10 col-md-offset-1'>" +
   "            <div class='panel panel-default'>" +
   "              <div class='panel-body'>" +
@@ -176,3 +171,10 @@ function renderAlbum(album) {
   // render #albums from html to the page with jQuery
   $('#albums').append(albumHtml);
 }
+
+
+
+
+
+
+
