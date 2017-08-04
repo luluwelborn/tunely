@@ -110,8 +110,15 @@ app.post('/api/albums/:album_id/songs', function(req, res){
   });
 });
 
-
-app.get('api/albums/:id')
+// add song to album in modal
+app.get('api/albums/:id', function(req, res){
+  console.log("get album id route");
+  db.Album.findOne({
+    '_id': req.params.id
+  }, function(err, song) {
+      res.json(album);
+  });
+});
 
 
 
