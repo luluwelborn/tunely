@@ -2,10 +2,9 @@ var mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/tunely");
 
 var Album = require ('./album');
-module.exports.Album = Album;
+var Song = require ('./song');
 
-// Song model require
-var Song = require ('./album');
+module.exports.Album = Album;
 module.exports.Song = Song;
 // console.log(Song);
 

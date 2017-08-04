@@ -47,20 +47,12 @@ $(document).ready(function() {
     // Album id click 
     $('.album').on('click', '.add-song', function(e) {
       console.log('you clicked');
-      // google click listner not listening
-      // var id= $(this).parents('.album').data('album-id');
-      // // console.log('id',id);
-      // $('#songModal').data('album-id', id);
-      // $('#songModal').modal();
+      var id= $(this).parents('.album').data('album-id');
+      console.log('id',id);
+      $('#songModal').data('album-id', id);
+      $('#songModal').modal();
     });
   });
-
-
-  // TEST click function
-  // $("#test-element").on("click" ,function() {
-  //     alert("click");
-  // });
-
 
 
   // modal buttons click new song
