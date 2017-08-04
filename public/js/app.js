@@ -37,29 +37,33 @@ sampleAlbums.push({
 
 $(document).ready(function() {
   console.log('app.js loaded!');
-
   $.get("http://localhost:3000/api/albums")
-      .done(function(data) {
-        let kanyeAlbums = data;
-        kanyeAlbums.forEach(function (kanyeAlbum) {
-          renderAlbum(kanyeAlbum);
-      });
-  });
-    // call form's addAlbum function
-    addAlbum();
-
+  .done(function(data) {
+    let kanyeAlbums = data;
+    kanyeAlbums.forEach(function (kanyeAlbum) {
+      renderAlbum(kanyeAlbum);
+      console.log('hello data', data);
+    });
     // Album id click 
-$('.album').on('click', '.add-song', function(e) {
-  // jquery on click issues
-  // google click listerned not listening
-    // console.log('asdfasdfasdf');
-    var id= $(this).parents('.album').data('album-id');
-    // console.log('id',id);
-    $('#songModal').data('album-id', id);
-    $('#songModal').modal();
-});
+    $('.album').on('click', '.add-song', function(e) {
+      console.log('you clicked');
+      // google click listner not listening
+      // var id= $(this).parents('.album').data('album-id');
+      // // console.log('id',id);
+      // $('#songModal').data('album-id', id);
+      // $('#songModal').modal();
+    });
+  });
 
-// modal click new song
+
+  // TEST click function
+  // $("#test-element").on("click" ,function() {
+  //     alert("click");
+  // });
+
+
+
+  // modal buttons click new song
   $('#saveSong').on('click', function handleNewSongSubmit() {
     var id= $(this).parents('#songModal').data('album-id');
     $('#saveSong').data('album-id', id);
@@ -69,12 +73,12 @@ $('.album').on('click', '.add-song', function(e) {
     console.log('saving song on click', newSong, theTrack, id); 
 
     $.ajax({
-    type: 'POST',
-    url: '/api/albums/' + id + '/songs',
-    datatype: 'json',
-    data: {
-      name: newSong,
-      trackNumber: theTrack
+      type: 'POST',
+      url: '/api/albums/' + id + '/songs',
+      datatype: 'json',
+      data: {
+        name: newSong,
+        trackNumber: theTrack
     },
     success: function() {
       console.log('yay');
@@ -83,10 +87,11 @@ $('.album').on('click', '.add-song', function(e) {
     });
   });
 });
-
+// call form's addAlbum function
+addAlbum();
 
 function addAlbum() {
-// need to collect album-form data on submit
+  // need to collect album-form data on submit
   $("form").submit(function() {
     console.log("form exisis");
     // stop from from submitting
