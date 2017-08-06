@@ -39,11 +39,10 @@ $(document).ready(function() {
       console.log('hello data', data);
     });
 
-
     // Album id click 
-  $('.album').on('click', '.add-song', function(e) {
+    $('.album').on('click', '.add-song', function(e) {
       // console.log('you clicked');
-      var id= $(this).parents('.album').data('album-id');
+      var id = $(this).parents('.album').data('album-id');
       console.log('id',id);
       $('#songModal').data('album-id', id);
       $('#songModal').modal();
@@ -53,30 +52,56 @@ $(document).ready(function() {
 
   // modal buttons click new song
   $('#saveSong').on('click', function handleNewSongSubmit() {
-    var id= $(this).parents('#songModal').data('album-id');
-    $('#saveSong').data('album-id', id);
-    $('#saveSong').modal();
-    var newSong = $('#songName').val();
-    var theTrack = $('#trackNumber').val();
-    //console.log('saving song on click', newSong, theTrack, id); 
-    console.log(id);
+      // var id= $(this).parents('#songModal').data('album-id');
+      // $('#saveSong').data('album-id', id);
+      // $('#saveSong').modal();
+      var newSong = $('#songName').val();
+      var theTrack = $('#trackNumber').val(); 
+      console.log(newSong, theTrack, "id:", id);
+      var datastring = '&name=' + newSong + '&theTrack=' + theTrack;
 
+      $.ajax({
+        type: 'POST',
+        url: '/api/albums/' + id + '/songs',
+        datatype: 'json',
+        data: datastring,
+        success: successNewSong,
+      });
+      $(this).trigger("reset");
+      $('#songModal').modal("hide");
 
-    $.ajax({
-      type: 'POST',
-      url: '/api/albums/' + id + '/songs',
-      datatype: 'json',
-      data: {
-        name: newSong,
-        trackNumber: theTrack
-    },
-    success: function() {
-      console.log('yay');
-    }
+    // OLD POST SONGS
+    // $.ajax({
+    //   type: 'POST',
+    //   url: '/api/albums/' + id + '/songs',
+    //   datatype: 'json',
+    //   data: {
+    //     name: newSong,
+    //     trackNumber: theTrack
+    // },
+    // success: function() {
+    //   console.log('yay');
+    // }
 
-    });
+    // });
   });
 });
+
+  function successNewSong() {
+      $.ajax({
+            type: 'GET',
+            url: '/api/albums/' + id,
+            success: renderUpdateAlbum
+          });
+  }
+
+  function renderUpdateAlbum(json) {
+    var albumToUpdate = $("div").find("[data-album-id=" + id + "]");
+    console.log(json);
+    albumToUpdate.remove();
+    renderAlbum(json);
+  }
+
 // call form's addAlbum function
 addAlbum();
 
@@ -106,7 +131,7 @@ function addAlbum() {
   });
 }
 
-
+// display song list on album
 function buildSongsHtml(songs) {
   var songText = "-";
   var songsHTML = " ";
@@ -117,6 +142,22 @@ function buildSongsHtml(songs) {
   });
   return songsHTML;
 };
+
+// Display added song on page
+function buildSongs(songs) {
+  var listOfSongs = " ";
+  songs.forEach(function(song) {
+    listOfSongs = listOfSongs + "(" + song.trackNumber + ")" + song.name + "-";
+  });
+
+  var songHTML = "<li class = 'list-group-item'>" +
+  "         <h4 class = 'inline-header'>Songs:</h4>" +
+  "         <span>" + listOfSongs + "</span>" +
+  "         </li>";
+
+  return songHTML;
+
+}
 
 
 function renderAlbum(album) {

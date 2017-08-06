@@ -98,7 +98,7 @@ app.post('/api/albums/:album_id/songs', function(req, res){
   console.log('post song route');
 
   db.Album.findOne({
-    '_id': req.params.album_id
+    _id: req.params.album_id
   }, function(err, album) {
     console.log(album);
     album.songs.push({
@@ -111,11 +111,11 @@ app.post('/api/albums/:album_id/songs', function(req, res){
 });
 
 // add song to album in modal
-app.get('api/albums/:id', function(req, res){
+app.get('api/albums/:album_id', function(req, res){
   console.log("get album id route");
   db.Album.findOne({
-    '_id': req.params.id
-  }, function(err, song) {
+    _id: req.params.album_id
+  }, function(err, album) {
       res.json(album);
   });
 });
